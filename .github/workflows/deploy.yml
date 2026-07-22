@@ -47,11 +47,23 @@ jobs:
         run: |
           oc project ${{ secrets.OPENSHIFT_NAMESPACE }}
 
+      - name: Deploy Kubernetes Resources
+        run: |
+          oc apply -f deployment.yaml
+          oc apply -f service.yaml
+          oc apply -f route.yaml
+
       - name: Update Deployment Image
         run: |
           oc set image deployment/employee-app \
-            employee=${{ secrets.DOCKER_USERNAME }}/employee-app:latest
+            employee=docker.io/${{ secrets.DOCKER_USERNAME }}/employee-app:latest
 
-      - name: Wait for Rollout
+      - name: Verify Rollout
         run: |
-          oc rollout status deployment/employee-app
+          oc rollout status deployment/employee-app --timeout=300s
+
+      - name: Verify Pods
+        run: |
+          oc get pods
+          oc get svc
+          oc get route
