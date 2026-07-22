@@ -15,6 +15,7 @@ spec:
   spec:
       containers:
       - name: employee
-        image: image-registry.openshift-image-registry.svc:5000/demo/employee-app:latest
+        image: docker.io/ibrahim3/employee-app:v2
         ports:
         - containerPort: 8080
+        
