@@ -10,7 +10,7 @@ metadata:
 spec:
 
   selector:
-    app: employee
+    app: employee-app
 
   ports:
 
